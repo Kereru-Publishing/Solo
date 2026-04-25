@@ -1,15 +1,13 @@
 {{!< default}}
 
-{{#contentFor "main"}}
-
+{{!-- ================================================
+     HERO SECTION
+     Your author photo is pulled from Ghost Admin > Staff > your profile.
+     Update your photo there and it will appear here automatically.
+================================================ --}}
 <main class="gh-main gh-outer">
 <div class="cb-home gh-inner">
 
-    {{!-- ================================================
-         HERO SECTION
-         Your author photo is pulled from Ghost Admin > Staff > your profile.
-         Update your photo there and it will appear here automatically.
-    ================================================ --}}
     <section class="cb-hero">
         {{#primary_author}}
             {{#if profile_image}}
@@ -348,5 +346,3 @@
         }
     }
 </style>
-
-{{/contentFor}}
