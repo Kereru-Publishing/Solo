@@ -1,0 +1,363 @@
+{{!-- home.hbs — Custom Author Landing Page for Caroline Bindon (Solo theme) --}}
+{{!-- Place this file in the root of your Solo theme folder, alongside index.hbs --}}
+
+{{< "default"}}
+
+{{#contentFor "main"}}
+
+<main class="gh-main gh-outer">
+<div class="cb-home gh-inner">
+
+    {{!-- ================================================
+         HERO SECTION
+         Uses your Ghost author profile photo and bio.
+         Update your photo & description in Ghost Admin → Staff.
+    ================================================ --}}
+    <section class="cb-hero">
+        {{#primary_author}}
+            {{#if profile_image}}
+                <img class="cb-hero-photo" src="{{profile_image}}" alt="{{name}}">
+            {{/if}}
+        {{/primary_author}}
+        <div class="cb-hero-text">
+            <h1 class="cb-hero-name">{{@site.title}}</h1>
+            <p class="cb-hero-tagline">New Zealand author of cosy mysteries, children's fiction, and books for the spiritual journey</p>
+        </div>
+    </section>
+
+    {{!-- ================================================
+         WELCOME PARAGRAPH
+         Edit this text directly in this file.
+    ================================================ --}}
+    <section class="cb-welcome">
+        <p>
+            Welcome — I'm so glad you found your way here. I write stories that invite you to slow down,
+            snuggle in, and feel at home in the world, whether that's through a gently unfolding mystery,
+            a picture book adventure, or a quiet book for the soul. Pull up a chair and stay a while.
+        </p>
+    </section>
+
+    {{!-- ================================================
+         BOOKS STRIP
+         Tag your book posts with the tag "books" in Ghost Admin.
+         Each book post should have a feature image (the cover).
+         They will appear here as a visual row linking to the Books page.
+    ================================================ --}}
+    <section class="cb-books">
+        <h2 class="cb-section-title">Books</h2>
+        <div class="cb-books-strip">
+            {{#get "posts" filter="tag:books" limit="6"}}
+                {{#foreach posts}}
+                    <a class="cb-book-item" href="{{url}}" title="{{title}}">
+                        {{#if feature_image}}
+                            <img src="{{feature_image}}" alt="{{title}}">
+                        {{else}}
+                            <div class="cb-book-placeholder">{{title}}</div>
+                        {{/if}}
+                    </a>
+                {{/foreach}}
+            {{/get}}
+        </div>
+        <div class="cb-books-link-wrap">
+            <a class="cb-books-link gh-btn gh-primary-btn" href="/books/">See all books</a>
+        </div>
+    </section>
+
+    {{!-- ================================================
+         NEWSLETTER SIGNUP
+    ================================================ --}}
+    <section class="cb-newsletter">
+        <p class="cb-newsletter-copy">News from my writing desk, straight to your inbox — no noise, just stories.</p>
+        <div class="cb-subscribe-input" data-portal="signup">
+            <span class="cb-subscribe-placeholder">your@email.com</span>
+            <span class="gh-btn gh-primary-btn">Subscribe</span>
+        </div>
+    </section>
+
+    {{!-- ================================================
+         LATEST BLOG POST
+         Ghost automatically fetches the most recent post.
+         This section will be empty at launch until you publish.
+    ================================================ --}}
+    <section class="cb-latest">
+        <h2 class="cb-section-title">From the writing desk</h2>
+        {{#get "posts" filter="tag:-books" limit="1"}}
+            {{#foreach posts}}
+                <article class="cb-latest-post">
+                    {{#if feature_image}}
+                        <a class="cb-latest-image" href="{{url}}">
+                            <img src="{{feature_image}}" alt="{{title}}">
+                        </a>
+                    {{/if}}
+                    <div class="cb-latest-content">
+                        <h3 class="cb-latest-title"><a href="{{url}}">{{title}}</a></h3>
+                        {{#if custom_excerpt}}
+                            <p class="cb-latest-excerpt">{{custom_excerpt}}</p>
+                        {{else if excerpt}}
+                            <p class="cb-latest-excerpt">{{excerpt words="30"}}</p>
+                        {{/if}}
+                        <a class="cb-read-more" href="{{url}}">Read more →</a>
+                    </div>
+                </article>
+            {{/foreach}}
+            {{^}}
+                {{!-- No posts yet — placeholder shown at launch --}}
+                <p class="cb-no-posts">Nothing here yet — check back soon for news from my writing desk.</p>
+            {{/get}}
+        {{/get}}
+    </section>
+
+</div>
+</main>
+
+{{!-- ================================================
+     STYLES — scoped to .cb- classes so they don't
+     interfere with Solo's existing styles.
+================================================ --}}
+<style>
+    /* ---- Layout container ---- */
+    .cb-home {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 0 24px;
+    }
+
+    /* ---- Hero ---- */
+    .cb-hero {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        padding: 60px 0 40px;
+    }
+
+    .cb-hero-photo {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex-shrink: 0;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    }
+
+    .cb-hero-name {
+        font-family: 'Caveat', cursive;
+        font-size: 72px;
+        line-height: 1.05;
+        margin: 0 0 10px;
+        color: var(--color-darkgrey, #15171a);
+    }
+
+    .cb-hero-tagline {
+        font-family: 'Inter', sans-serif;
+        font-size: 17px;
+        color: var(--color-midgrey, #738a94);
+        margin: 0;
+        line-height: 1.5;
+    }
+
+    /* ---- Welcome ---- */
+    .cb-welcome {
+        padding: 20px 0 40px;
+        border-bottom: 1px solid var(--color-border, #e6e6e6);
+    }
+
+    .cb-welcome p {
+        font-family: 'Inter', sans-serif;
+        font-size: 18px;
+        line-height: 1.75;
+        color: var(--color-darkgrey, #15171a);
+        max-width: 680px;
+        margin: 0;
+    }
+
+    /* ---- Section titles ---- */
+    .cb-section-title {
+        font-family: 'Caveat', cursive;
+        font-size: 48px;
+        margin: 48px 0 24px;
+        color: var(--color-darkgrey, #15171a);
+    }
+
+    /* ---- Books strip ---- */
+    .cb-books {
+        padding-bottom: 40px;
+        border-bottom: 1px solid var(--color-border, #e6e6e6);
+    }
+
+    .cb-books-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .cb-book-item {
+        display: block;
+        width: 120px;
+        flex-shrink: 0;
+        transition: transform 0.2s ease;
+    }
+
+    .cb-book-item:hover {
+        transform: translateY(-4px);
+    }
+
+    .cb-book-item img {
+        width: 100%;
+        border-radius: 6px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        display: block;
+    }
+
+    .cb-book-placeholder {
+        width: 120px;
+        height: 170px;
+        background: var(--ghost-accent-color, #c77191);
+        color: #fff;
+        font-family: 'Inter', sans-serif;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 10px;
+        border-radius: 6px;
+    }
+
+    .cb-books-link-wrap {
+        margin-top: 24px;
+    }
+
+    .cb-books-link {
+        display: inline-block;
+        font-family: 'Inter', sans-serif;
+        font-size: 15px;
+    }
+
+    /* ---- Newsletter ---- */
+    .cb-newsletter {
+        padding: 40px 0;
+        border-bottom: 1px solid var(--color-border, #e6e6e6);
+    }
+
+    .cb-newsletter-copy {
+        font-family: 'Inter', sans-serif;
+        font-size: 17px;
+        color: var(--color-midgrey, #738a94);
+        margin: 0 0 16px;
+    }
+
+    .cb-subscribe-input {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+    }
+
+    .cb-subscribe-placeholder {
+        font-family: 'Inter', sans-serif;
+        font-size: 15px;
+        color: #aaa;
+        border: 1px solid var(--color-border, #e6e6e6);
+        border-radius: 6px;
+        padding: 10px 16px;
+        min-width: 220px;
+    }
+
+    /* ---- Latest post ---- */
+    .cb-latest {
+        padding-bottom: 60px;
+    }
+
+    .cb-latest-post {
+        display: flex;
+        gap: 28px;
+        align-items: flex-start;
+    }
+
+    .cb-latest-image {
+        flex-shrink: 0;
+        width: 200px;
+    }
+
+    .cb-latest-image img {
+        width: 100%;
+        border-radius: 8px;
+        display: block;
+        object-fit: cover;
+        aspect-ratio: 16/10;
+    }
+
+    .cb-latest-title {
+        font-family: 'Inter', sans-serif;
+        font-size: 22px;
+        margin: 0 0 10px;
+    }
+
+    .cb-latest-title a {
+        color: var(--color-darkgrey, #15171a);
+        text-decoration: none;
+    }
+
+    .cb-latest-title a:hover {
+        color: var(--ghost-accent-color, #c77191);
+    }
+
+    .cb-latest-excerpt {
+        font-family: 'Inter', sans-serif;
+        font-size: 16px;
+        line-height: 1.65;
+        color: var(--color-midgrey, #738a94);
+        margin: 0 0 14px;
+    }
+
+    .cb-read-more {
+        font-family: 'Inter', sans-serif;
+        font-size: 15px;
+        color: var(--ghost-accent-color, #c77191);
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .cb-read-more:hover {
+        text-decoration: underline;
+    }
+
+    .cb-no-posts {
+        font-family: 'Inter', sans-serif;
+        font-size: 16px;
+        color: var(--color-midgrey, #738a94);
+        font-style: italic;
+    }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 640px) {
+        .cb-hero {
+            flex-direction: column;
+            text-align: center;
+            padding: 40px 0 28px;
+            gap: 24px;
+        }
+
+        .cb-hero-name {
+            font-size: 52px;
+        }
+
+        .cb-latest-post {
+            flex-direction: column;
+        }
+
+        .cb-latest-image {
+            width: 100%;
+        }
+
+        .cb-books-strip {
+            gap: 14px;
+        }
+
+        .cb-book-item {
+            width: 90px;
+        }
+    }
+</style>
+
+{{/contentFor}}
